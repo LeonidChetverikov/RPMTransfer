@@ -11,7 +11,7 @@ import (
 
 func receiveHandler(w http.ResponseWriter, r *http.Request) {
 
-	// the FormFile function takes in the POST input id file
+
 	file, header, err := r.FormFile("file")
 
 	if err != nil {
@@ -29,7 +29,6 @@ func receiveHandler(w http.ResponseWriter, r *http.Request) {
 
 	defer out.Close()
 
-	// write the content from POST to the file
 	_, err = io.Copy(out, file)
 	if err != nil {
 		fmt.Fprintln(w, err)
@@ -50,7 +49,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	http.HandleFunc("/receive", receiveHandler) // Handle the incoming file
+	http.HandleFunc("/receive", receiveHandler)
 	http.Handle("/", http.FileServer(http.Dir(dir)))
 	log.Fatal(http.ListenAndServe(":8080", nil))
 
